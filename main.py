@@ -1,8 +1,17 @@
 import pickle
 
-from Paths import seq1, out, seq2
+import pandas as pd
+
+from FedLA.Matrix import plot_trend, calculate_js_divergence
+from Paths import *
 from objectIO import seq2csv, seqs2csv
 
 if __name__ == '__main__':
-    seq2csv(seq1, out)
-    seqs2csv([seq1, seq2], out, ['A', 'B'])
+    # 读取CSV文件
+    data = pd.read_csv('res/mat.csv')
+
+    # 调用计算函数
+    result = calculate_js_divergence(data)
+
+    # 调用绘图函数，绘制列3的变化趋势图
+    plot_trend(result, '3')
