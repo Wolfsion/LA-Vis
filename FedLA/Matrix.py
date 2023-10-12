@@ -3,6 +3,8 @@ import numpy as np
 from scipy.spatial.distance import jensenshannon
 import matplotlib.pyplot as plt
 
+from utils import str2ndarray
+
 
 def calculate_js_divergence(data):
     """
@@ -16,6 +18,8 @@ def calculate_js_divergence(data):
     """
     # 获取第一列数据
     column_data = data['1']
+
+    column_data = column_data.apply(lambda x: str2ndarray(x))
 
     # 初始化第三列
     data['3'] = np.nan
@@ -45,9 +49,9 @@ def plot_trend(data, column_name):
     plt.plot(column_data)
 
     # 添加标题和标签
-    plt.title("变化趋势图")
-    plt.xlabel("数据点")
-    plt.ylabel("数据值")
+    plt.title("Chart of Changing Trend")
+    plt.xlabel("JS-Distance")
+    plt.ylabel("Amplitude")
 
     # 显示图表
     plt.show()
