@@ -3,7 +3,7 @@ import numpy as np
 from scipy.spatial.distance import jensenshannon
 import matplotlib.pyplot as plt
 
-from utils import str2ndarray
+from utils.switcher import str2ndarray
 
 
 def calculate_js_divergence(data):
@@ -16,23 +16,40 @@ def calculate_js_divergence(data):
     返回值：
     pandas DataFrame，包含计算结果的DataFrame
     """
-    # 获取第一列数据
-    column_data = data['1']
+    column_names = data.columns.tolist()
+    column_names.remove('Unnamed: 0')
 
-    column_data = column_data.apply(lambda x: str2ndarray(x))
+    # string转换为ndarray
+    for col in column_names:
+        column_data = data[col].apply(lambda x: str2ndarray(x))
+        data[col] = column_data
 
-    # 初始化第三列
-    data['3'] = np.nan
+    # 创建新列名列表
+    ori_len = len(column_names)
+    tail = int(column_names[-1])
+    new_column_names = []
+    for i in range(ori_len + 1):
+        data[str(tail + i + 1)] = np.nan
+        new_column_names.append(tail + i + 1)
+    new_column_names = [str(x) for x in new_column_names]
 
-    # 计算JS散度并存储在第三列
-    for i in range(1, len(column_data)):
-        js_divergence = jensenshannon(column_data[i - 1], column_data[i])
-        data.at[i, '3'] = js_divergence
+    for ind, col in enumerate(column_names):
+        column_data = data[col]
+        # 计算JS散度并存储在第三列
+        for i in range(1, len(column_data)):
+            js_divergence = jensenshannon(column_data[i - 1], column_data[i])
+            data.at[i, new_column_names[ind]] = js_divergence
+
+    # 计算平均值
+    mean_value = data[new_column_names].mean(axis=1)
+
+    # 将平均值填充到最后列
+    data[new_column_names[-1]] = mean_value
 
     return data
 
 
-def plot_trend(data, column_name):
+def plot_trend(data, column_names):
     """
     绘制变化趋势图函数
 
@@ -43,16 +60,17 @@ def plot_trend(data, column_name):
     返回值：
     无返回值，直接显示图表
     """
-    column_data = data[column_name]
 
-    # 绘制变化趋势图
-    plt.plot(column_data)
+    for column_name in column_names:
+        column_data = data[column_name]
+        # 绘制变化趋势图
+        plt.plot(column_data, label=column_name)
 
     # 添加标题和标签
     plt.title("Chart of Changing Trend")
     plt.xlabel("JS-Distance")
     plt.ylabel("Amplitude")
+    plt.legend()
 
     # 显示图表
     plt.show()
-
