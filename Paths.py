@@ -13,3 +13,12 @@ seq9 = "res/avg_matrix_204854---10.10.seq"
 out = r"res/mat.csv"
 
 outs = "res/seqs.csv"
+
+# client selection
+select1 = "res/selected_workers_013230---11.02.seq"
+select2 = "res/selected_workers_221652---11.01.seq"
+select3 = "res/selected_workers_030901---11.02.seq"
+select4 = "res/selected_workers_044611---11.02.seq"
+select5 = "res/selected_workers_235549---11.01.seq"
+
+s_outs = r"res/selections.csv"

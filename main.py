@@ -1,6 +1,7 @@
 import pandas as pd
 
 from FedLA.Matrix import plot_trend, calculate_js_divergence
+from FedLA.Selection import to_vis_selection, plot_cnt, test_matrix_vis
 from Paths import *
 from utils.objectIO import seqs2csv
 
@@ -25,5 +26,15 @@ def csvs():
     plot_trend(ret, ['6', '7', '8', '9', '10', '11'])
 
 
+def selection():
+    seqs = [select1, select2, select3, select4, select5]
+    seqs2csv(seqs, s_outs)
+    data = pd.read_csv(s_outs)
+    data = to_vis_selection(data)
+    plot_cnt(data)
+
+
 if __name__ == '__main__':
-    csvs()
+    # csvs()
+    # selection()
+    test_matrix_vis()
