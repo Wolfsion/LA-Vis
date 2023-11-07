@@ -1,7 +1,10 @@
+import random
 from copy import deepcopy
 
 import numpy as np
+import pandas as pd
 from matplotlib import pyplot as plt
+import seaborn as sns
 
 from utils.switcher import str2ndarray
 
@@ -69,13 +72,21 @@ def plot_cnt(data):
     # 统计每个数值出现的次数
     for result in stats_results:
         for number in result.keys():
-            result_dict[number] += 1
+            result_dict[number] += result[number]
 
     # 计算每个数值的平均出现个数
     mean_results = {number: count / len(stats_results) for number, count in result_dict.items()}
 
     # 打印平均值
     print(mean_results)
+
+    mean_results = dict(random.sample(mean_results.items(), 10))
+
+    # 将字典转换为 DataFrame 格式
+    df = pd.DataFrame(list(mean_results.items()), columns=['X', 'Y'])
+
+    # 使用 Seaborn 绘制条形柱状图
+    sns.barplot(x='X', y='Y', data=df, label='Cnt')
 
     # 添加标题和标签
     plt.title("Client Selection Statics")
@@ -87,14 +98,3 @@ def plot_cnt(data):
     plt.show()
 
 
-def test_matrix_vis():
-    # 创建一个随机矩阵作为示例
-    matrix = np.random.rand(10, 10)
-    print(matrix)
-    # 绘制热图
-    plt.imshow(matrix, cmap='hot', interpolation='nearest')
-    plt.colorbar()  # 添加颜色条
-    plt.title('Matrix Heatmap')
-    plt.xlabel('Columns')
-    plt.ylabel('Rows')
-    plt.show()
