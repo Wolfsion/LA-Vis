@@ -22,8 +22,14 @@ select4 = "res/selected_workers_044611---11.02.seq"
 select5 = "res/selected_workers_235549---11.01.seq"
 select6 = "res/selected_workers_023834---11.07.seq"
 select7 = "res/selected_workers_192411---11.07.seq"
+select8 = "res/selected_workers_191912---11.09.seq"
 
 s_outs = r"res/selections.csv"
 
 info_matrix = "res/avg_matrix_192411---11.07.seq"
 outi = "res/avg_matrix.csv"
+
+# Out
+outif = "output/if.png"
+outse = "output/select.png"
+outch = "output/change.png"

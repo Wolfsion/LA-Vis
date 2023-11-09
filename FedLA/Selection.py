@@ -34,7 +34,7 @@ def to_vis_selection(data):
     return data
 
 
-def plot_cnt(data):
+def plot_cnt(data, out: str = None):
     """
     绘制变化趋势图函数
 
@@ -94,7 +94,9 @@ def plot_cnt(data):
     plt.ylabel("Cnt")
     plt.legend()
 
+    if out:
+        plt.savefig(out)
+
     # 显示图表
     plt.show()
-
 

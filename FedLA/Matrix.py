@@ -50,7 +50,7 @@ def calculate_js_divergence(data):
     return data
 
 
-def plot_dis_trend(data, column_names):
+def plot_dis_trend(data, column_names, out: str = None):
     """
     绘制变化趋势图函数
 
@@ -73,11 +73,14 @@ def plot_dis_trend(data, column_names):
     plt.ylabel("Amplitude")
     plt.legend()
 
+    if out:
+        plt.savefig(out)
+
     # 显示图表
     plt.show()
 
 
-def plot_trend(data):
+def plot_trend(data, out: str = None):
     # 创建一个随机矩阵作为示例
     column_names = data.columns.tolist()
     column_names.remove('Unnamed: 0')
@@ -107,13 +110,17 @@ def plot_trend(data):
         im = ax.imshow(matrix, cmap='hot')
         ax.set_title(f'Matrix {i + 1}')
 
-    # 调整子图之间的间距
-    plt.tight_layout()
+        if i == 5:
+            # 调整子图之间的间距
+            plt.tight_layout()
 
-    # 添加统一的颜色条图例
-    fig.colorbar(im, ax=axs)
+            # 添加统一的颜色条图例
+            fig.colorbar(im, ax=axs)
 
-    # 添加大标题
-    fig.suptitle('Matrix Round Change', fontsize=16)
+            # 添加大标题
+            fig.suptitle('Matrix Round Change', fontsize=16)
 
-    plt.show()
+            if out:
+                plt.savefig(out)
+
+            plt.show()

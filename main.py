@@ -23,24 +23,29 @@ def matrix_dist_csvs():
 
     csv = pd.read_csv(outs)
     ret = calculate_js_divergence(csv)
-    plot_dis_trend(ret, ['6', '7', '8', '9', '10', '11'])
+    plot_dis_trend(ret, ['6', '7', '11'], outch)
 
 
 def selection():
-    seqs = [select6, select7]
+    seqs = [select8]
     seqs2csv(seqs, s_outs)
     data = pd.read_csv(s_outs)
     data = to_vis_selection(data)
-    plot_cnt(data)
+    plot_cnt(data, outse)
 
 
 def matrix_single():
     seq2csv(info_matrix, outi)
     csv = pd.read_csv(outi)
-    plot_trend(csv)
+    plot_trend(csv, outif)
+
+
+def tmp():
+    pass
 
 
 if __name__ == '__main__':
-    # csvs()
+    matrix_dist_csvs()
     # selection()
-    matrix_single()
+    # matrix_single()
+    # tmp()
