@@ -29,7 +29,9 @@ s_outs = r"res/selections.csv"
 info_matrix = "res/avg_matrix_192411---11.07.seq"
 outi = "res/avg_matrix.csv"
 
+
 # Out
 outif = "output/if.png"
+outid = "output/ifd.png"
 outse = "output/select.png"
 outch = "output/change.png"

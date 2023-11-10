@@ -26,6 +26,13 @@ def matrix_dist_csvs():
     plot_dis_trend(ret, ['6', '7', '11'], outch)
 
 
+def matrix_dist_csv():
+    seq2csv(info_matrix, outi)
+    csv = pd.read_csv(outi)
+    ret = calculate_js_divergence(csv)
+    plot_dis_trend(ret, ['3'], outid)
+
+
 def selection():
     seqs = [select8]
     seqs2csv(seqs, s_outs)
@@ -45,7 +52,8 @@ def tmp():
 
 
 if __name__ == '__main__':
-    matrix_dist_csvs()
+    matrix_dist_csv()
+    # matrix_dist_csvs()
     # selection()
     # matrix_single()
     # tmp()
