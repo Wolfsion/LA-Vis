@@ -99,5 +99,9 @@ def seqs2csv(fs: List[str], out: str, cols: List[str] = None):
     df.to_csv(out)
 
 
+def seq2obj():
+    pass
+
+
 if __name__ == '__main__':
     print("Nothing.")

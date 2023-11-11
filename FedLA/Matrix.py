@@ -1,4 +1,5 @@
-import pandas as pd
+import random
+
 import numpy as np
 from scipy.spatial.distance import jensenshannon
 import matplotlib.pyplot as plt
@@ -49,7 +50,7 @@ def calculate_js_divergence(data):
     return data
 
 
-def plot_trend(data, column_names):
+def plot_dis_trend(data, column_names, out: str = None):
     """
     绘制变化趋势图函数
 
@@ -72,5 +73,54 @@ def plot_trend(data, column_names):
     plt.ylabel("Amplitude")
     plt.legend()
 
+    if out:
+        plt.savefig(out)
+
     # 显示图表
     plt.show()
+
+
+def plot_trend(data, out: str = None):
+    # 创建一个随机矩阵作为示例
+    column_names = data.columns.tolist()
+    column_names.remove('Unnamed: 0')
+
+    # string转换为ndarray
+    for col in column_names:
+        column_data = data[col].apply(lambda x: str2ndarray(x))
+        data[col] = column_data
+
+    # 随机选择6个矩阵的索引
+    selected_indices = random.sample(range(len(data)), 6)
+    selected_indices = sorted(selected_indices)
+
+    # 获取选中的矩阵数据
+    selected_matrices = data.loc[selected_indices, column_names[0]]
+
+    matrices = [array.reshape(10, 10) for array in selected_matrices]
+
+    # 创建一个包含6个子图的图幅
+    fig, axs = plt.subplots(2, 3, figsize=(12, 8))
+
+    # 在每个子图中绘制热图
+    for i, matrix in enumerate(matrices):
+        row = i // 3
+        col = i % 3
+        ax = axs[row, col]
+        im = ax.imshow(matrix, cmap='hot')
+        ax.set_title(f'Matrix {i + 1}')
+
+        if i == 5:
+            # 调整子图之间的间距
+            plt.tight_layout()
+
+            # 添加统一的颜色条图例
+            fig.colorbar(im, ax=axs)
+
+            # 添加大标题
+            fig.suptitle('Matrix Round Change', fontsize=16)
+
+            if out:
+                plt.savefig(out)
+
+            plt.show()

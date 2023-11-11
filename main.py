@@ -1,11 +1,12 @@
 import pandas as pd
 
-from FedLA.Matrix import plot_trend, calculate_js_divergence
+from FedLA.Matrix import plot_dis_trend, calculate_js_divergence, plot_trend
+from FedLA.Selection import to_vis_selection, plot_cnt
 from Paths import *
-from utils.objectIO import seqs2csv
+from utils.objectIO import seqs2csv, seq2csv
 
 
-def single():
+def dist_single():
     # 读取CSV文件
     data = pd.read_csv('res/mat.csv')
 
@@ -13,17 +14,46 @@ def single():
     result = calculate_js_divergence(data)
 
     # 调用绘图函数，绘制列3的变化趋势图
-    plot_trend(result, '3')
+    plot_dis_trend(result, '3')
 
 
-def csvs():
+def matrix_dist_csvs():
     seqs = [seq5, seq6, seq7, seq8, seq9]
     seqs2csv(seqs, outs)
 
     csv = pd.read_csv(outs)
     ret = calculate_js_divergence(csv)
-    plot_trend(ret, ['6', '7', '8', '9', '10', '11'])
+    plot_dis_trend(ret, ['6', '7', '11'], outch)
+
+
+def matrix_dist_csv():
+    seq2csv(info_matrix, outi)
+    csv = pd.read_csv(outi)
+    ret = calculate_js_divergence(csv)
+    plot_dis_trend(ret, ['3'], outid)
+
+
+def selection():
+    seqs = [select8]
+    seqs2csv(seqs, s_outs)
+    data = pd.read_csv(s_outs)
+    data = to_vis_selection(data)
+    plot_cnt(data, outse)
+
+
+def matrix_single():
+    seq2csv(info_matrix, outi)
+    csv = pd.read_csv(outi)
+    plot_trend(csv, outif)
+
+
+def tmp():
+    pass
 
 
 if __name__ == '__main__':
-    csvs()
+    matrix_dist_csv()
+    # matrix_dist_csvs()
+    # selection()
+    # matrix_single()
+    # tmp()
