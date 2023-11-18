@@ -80,7 +80,7 @@ def plot_dis_trend(data, column_names, out: str = None):
     plt.show()
 
 
-def plot_trend(data, out: str = None):
+def plot_matrix_trend(data, out: str = None):
     # 创建一个随机矩阵作为示例
     column_names = data.columns.tolist()
     column_names.remove('Unnamed: 0')
