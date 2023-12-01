@@ -52,15 +52,15 @@ def matrix_single():
 
 
 def adaptive_cs():
-    # ratios = [delta_ratio1, delta_ratio2, delta_ratio3, delta_ratio4, delta_ratio5]
-    # seqs2csv(ratios, delta_ratio_csv)
-    # csv = pd.read_csv(delta_ratio_csv)
-    # plot_delta_trend(csv, delta_ratio_img)
+    ratios = [delta_ratio7, delta_ratio8, delta_ratio9]
+    seqs2csv(ratios, delta_ratio_csv)
+    csv = pd.read_csv(delta_ratio_csv)
+    plot_delta_trend(csv, delta_ratio_img)
 
-    js_dists = [js_dis1, js_dis2, js_dis3, js_dis4, js_dis5]
-    seqs2csv(js_dists, js_dis_csv)
-    csv = pd.read_csv(js_dis_csv)
-    plot_vector_trend(csv, js_dis_img)
+    # js_dists = [js_dis1, js_dis2, js_dis3, js_dis4, js_dis5]
+    # seqs2csv(js_dists, js_dis_csv)
+    # csv = pd.read_csv(js_dis_csv)
+    # plot_vector_trend(csv, js_dis_img)
 
 
 def tmp():
@@ -72,5 +72,4 @@ if __name__ == '__main__':
     # matrix_dist_csvs()
     # selection()
     # matrix_single()
-    # adaptive_cs()
-    a = np.float(1)
+    adaptive_cs()

@@ -79,5 +79,11 @@ def switch_n_avg(data: pd.DataFrame):
         column_data = data[col].apply(lambda x: func(x))
         data[col] = column_data
 
-    data[Mean] = data.mean(axis=1)
+    data[Mean] = data.drop('Unnamed: 0', axis=1).mean(axis=1)
     return data
+
+
+def tsne_2dims(data: np.ndarray) -> np.ndarray:
+    tsne = TSNE(n_components=2)
+    transformed_data = tsne.fit_transform(data)
+    return transformed_data

@@ -48,6 +48,16 @@ delta_ratio2 = "res/average_delta_ratio_174854---11.17.seq"
 delta_ratio3 = "res/average_delta_ratio_181639---11.17.seq"
 delta_ratio4 = "res/average_delta_ratio_184451---11.17.seq"
 delta_ratio5 = "res/average_delta_ratio_191121---11.17.seq"
+delta_ratio6 = "res/average_delta_ratio_200424---11.30.seq"
+
+delta_ratio7 = "res/average_delta_ratio_000925---12.01.seq"
+delta_ratio8 = "res/average_delta_ratio_010615---12.01.seq"
+delta_ratio9 = "res/average_delta_ratio_234037---11.30.seq"
+
+if1 = "res/avg_matrix_184208---12.01.seq"
+if2 = "res/avg_matrix_190847---12.01.seq"
+delta_sp_ratio1 = "res/delta_ratio_184208---12.01.seq"
+delta_sp_ratio2 = "res/delta_ratio_190847---12.01.seq"
 
 # Out -
 js_dis_csv = "res/csv/js_dis.csv"
@@ -55,3 +65,4 @@ delta_ratio_csv = "res/csv/delta_ratio.csv"
 
 js_dis_img = "output/js_dis.png"
 delta_ratio_img = "output/delta_ratio.png"
+delta_img = "output/delta_sp_ratio.png"
