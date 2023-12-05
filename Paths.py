@@ -59,12 +59,16 @@ if2 = "res/avg_matrix_190847---12.01.seq"
 delta_sp_ratio1 = "res/delta_ratio_184208---12.01.seq"
 delta_sp_ratio2 = "res/delta_ratio_190847---12.01.seq"
 
+acc1 = "res/fmnist-conv2-fedla-test_acc_190847---12.01.seq"
+acc2 = "res/fmnist-conv2-fedla-test_acc_184208---12.01.seq"
+
 # Out -
 js_dis_csv = "res/csv/js_dis.csv"
 delta_ratio_csv = "res/csv/delta_ratio.csv"
 
 ifs_csv = "output/ifs.csv"
 delta_ratio_sp_csv = "res/csv/delta_sp_ratio.csv"
+acc_csv = "res/csv/acc.csv"
 
 js_dis_img = "output/js_dis.png"
 delta_ratio_img = "output/delta_ratio.png"

@@ -3,7 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 
-from FedLA.AdaptiveCs import plot_delta_trend, plot_vector_trend, plot_if_trend, plot_delta_heatmap
+from FedLA.AdaptiveCs import plot_delta_trend, plot_vector_trend, plot_if_trend, plot_delta_heatmap, plot_acc_trend
 from FedLA.Matrix import plot_dis_trend, calculate_js_divergence, plot_matrix_trend
 from FedLA.Selection import to_vis_selection, plot_cnt
 from Paths import *
@@ -71,6 +71,10 @@ def dis_if():
     # seqs2csv([delta_sp_ratio1, delta_sp_ratio2], delta_ratio_sp_csv)
     # csv = pd.read_csv(delta_ratio_sp_csv)
     # plot_delta_heatmap(csv, debug_img)
+
+    seqs2csv([acc1, acc2], acc_csv)
+    csv = pd.read_csv(acc_csv)
+    plot_acc_trend(csv, debug_img)
 
 
 if __name__ == '__main__':

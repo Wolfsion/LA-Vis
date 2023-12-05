@@ -101,4 +101,19 @@ def plot_if_trend(df, out: str = None):
 def plot_delta_heatmap(df, out):
     df = switch_n_vector_avg(df)
     mean_matrices = np.array([np.reshape(arr, (10, 10)) for arr in df[Mean]])
-    matrixs_heatmap(mean_matrices)
+    matrixs_heatmap(mean_matrices, out)
+
+
+def plot_acc_trend(df, out):
+    df = switch_n_avg(df)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['Unnamed: 0'], df['Mean'], marker='o')
+    plt.title('Trend of Mean Values Over Unnamed: 0')
+    plt.xlabel('Index')
+    plt.ylabel('Mean Value')
+    plt.grid(True)
+
+    if out:
+        plt.savefig(out)
+    plt.show()
