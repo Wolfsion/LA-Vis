@@ -63,6 +63,11 @@ delta_sp_ratio2 = "res/delta_ratio_190847---12.01.seq"
 js_dis_csv = "res/csv/js_dis.csv"
 delta_ratio_csv = "res/csv/delta_ratio.csv"
 
+ifs_csv = "output/ifs.csv"
+delta_ratio_sp_csv = "res/csv/delta_sp_ratio.csv"
+
 js_dis_img = "output/js_dis.png"
 delta_ratio_img = "output/delta_ratio.png"
 delta_img = "output/delta_sp_ratio.png"
+
+debug_img = "output/debug.png"
