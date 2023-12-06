@@ -8,6 +8,7 @@ from FedLA.Matrix import plot_dis_trend, calculate_js_divergence, plot_matrix_tr
 from FedLA.Selection import to_vis_selection, plot_cnt
 from Paths import *
 from utils.objectIO import seqs2csv, seq2csv
+from utils.switcher import cal_cosine_similarity
 
 
 def dist_single():

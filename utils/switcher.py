@@ -107,3 +107,37 @@ def tsne_2dims(data: np.ndarray, perplexity: int = 5) -> np.ndarray:
     tsne = TSNE(n_components=2, perplexity=perplexity, random_state=23)
     transformed_data = tsne.fit_transform(data)
     return transformed_data
+
+
+def positional_encoding(positions, d_model):
+    """
+    计算位置编码。
+
+    :param positions: 序列长度。
+    :param d_model: 模型的维度，位置编码的维度。
+    :return: 位置编码矩阵，形状为 [positions, d_model]。
+    """
+    # 初始化位置编码矩阵
+    pos_enc = np.zeros((positions, d_model))
+
+    # 计算位置编码
+    for pos in range(positions):
+        for i in range(0, d_model, 2):
+            pos_enc[pos, i] = np.sin(pos / (10000 ** (i / d_model)))
+            pos_enc[pos, i + 1] = np.cos(pos / (10000 ** (i / d_model)))
+
+    return pos_enc
+
+
+def cal_cosine_similarity(vec1: np.ndarray, vec2: np.ndarray) -> float:
+    # 计算点积
+    dot_product = np.dot(vec1, vec2)
+
+    # 计算向量的欧几里得范数
+    norm_vec1 = np.linalg.norm(vec1)
+    norm_vec2 = np.linalg.norm(vec2)
+
+    # 计算余弦相似度
+    cosine_similarity = dot_product / (norm_vec1 * norm_vec2)
+
+    return cosine_similarity

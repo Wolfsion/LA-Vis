@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
+from scipy.spatial.distance import jensenshannon
 
-from Env import Mean, Mean_TSNE, Mean_Delta
+from Env import Mean, Mean_TSNE, Mean_Delta, Mean_Norm
 from utils.switcher import switch_n_avg, str2ndarray, switch_n_vector_avg, tsne_2dims
 
 
@@ -90,12 +91,50 @@ def plot_if_trend(df, out: str = None):
     plt.show()
 
     mean_matrices = np.array([np.reshape(arr, (10, 10)) for arr in df[Mean]])
+    #
+    # matrixs_heatmap(mean_matrices)
+    #
+    # diff_matrices = np.array([mean_matrices[i + 1] - mean_matrices[i] for i in range(len(mean_matrices) - 1)])
+    #
+    # matrixs_heatmap(diff_matrices)
 
-    matrixs_heatmap(mean_matrices)
+    js_divergences = []
+    for i in range(len(df) - 1):
+        matrix1 = mean_matrices[i]
+        matrix2 = mean_matrices[i + 1]
 
-    diff_matrices = np.array([mean_matrices[i + 1] - mean_matrices[i] for i in range(len(mean_matrices) - 1)])
+        # js_div_row = []
+        # for j in range(len(matrix1)):
+        #     # 去除对角线元素
+        #     row1 = np.delete(matrix1[j], j)
+        #     row2 = np.delete(matrix2[j], j)
+        #
+        #     # 计算 JS 散度
+        #     js_div = jensenshannon(row1, row2)
+        #     js_div_row.append(js_div)
+        # js_divergences.append(js_div_row)
 
-    matrixs_heatmap(diff_matrices)
+        diagonal1 = np.diag(matrix1)
+        diagonal2 = np.diag(matrix2)
+
+        # 计算对角线元素的 JS 散度
+        js_div_diagonal = jensenshannon(diagonal1, diagonal2)
+        js_divergences.append(js_div_diagonal)
+
+    # 将 JS 散度结果转换为 DataFrame
+    js_df = pd.DataFrame(js_divergences)
+
+    # 绘制每行 JS 散度的变化趋势图
+    plt.figure(figsize=(12, 8))
+    for row in range(js_df.shape[1]):
+        plt.plot(js_df.index, js_df[row], marker='o', label=f'Row {row + 1}')
+
+    plt.title('Jensen-Shannon Divergence Trend for Each Row')
+    plt.xlabel('Matrix Pair Index')
+    plt.ylabel('JS Divergence')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 def plot_delta_heatmap(df, out):
