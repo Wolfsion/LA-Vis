@@ -103,9 +103,14 @@ def plot_if_trend(df, out: str = None):
         matrix1 = mean_matrices[i]
         matrix2 = mean_matrices[i + 1]
 
+        # # method1: 多元素
         # js_div_row = []
         # for j in range(len(matrix1)):
-        #     # 去除对角线元素
+        #     # # 完整元素
+        #     # row1 = matrix1[j]
+        #     # row2 = matrix2[j]
+        #
+        #     ## 去除对角线元素
         #     row1 = np.delete(matrix1[j], j)
         #     row2 = np.delete(matrix2[j], j)
         #
@@ -114,6 +119,7 @@ def plot_if_trend(df, out: str = None):
         #     js_div_row.append(js_div)
         # js_divergences.append(js_div_row)
 
+        # # method2: 只计算对角线元素
         diagonal1 = np.diag(matrix1)
         diagonal2 = np.diag(matrix2)
 
@@ -123,6 +129,10 @@ def plot_if_trend(df, out: str = None):
 
     # 将 JS 散度结果转换为 DataFrame
     js_df = pd.DataFrame(js_divergences)
+
+    # 按行取平均
+    js_df[0] = js_df.mean(axis=1)
+    js_df = js_df[[0]]  # 保留列 '0'，删除其他所有列
 
     # 绘制每行 JS 散度的变化趋势图
     plt.figure(figsize=(12, 8))

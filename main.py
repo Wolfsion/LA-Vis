@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # selection()
 
     # # 信息矩阵变化图
-    # matrix_single()
+    matrix_single()
 
     # adaptive_cs()
 
