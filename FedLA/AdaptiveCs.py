@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy.spatial.distance import jensenshannon
 
-from Env import Mean, Mean_TSNE, Mean_Delta, Mean_Norm
+from Env import Mean, Mean_TSNE, Mean_Delta, Mean_Norm, Mean1
 from utils.switcher import switch_n_avg, str2ndarray, switch_n_vector_avg, tsne_2dims
 
 
@@ -144,6 +144,21 @@ def plot_if_trend(df, out: str = None):
     plt.ylabel('JS Divergence')
     plt.legend()
     plt.grid(True)
+    plt.show()
+
+    df[Mean1] = df[Mean].apply(lambda xnd: xnd[:10])
+    # 设置绘图布局，行数由 DataFrame 的长度决定
+    n_rows = len(df)
+    fig, axs = plt.subplots(n_rows, 1, figsize=(10, 4 * n_rows))
+
+    # 为每个 1x10 ndarray 绘制分布曲线
+    for i in range(n_rows):
+        axs[i].plot(df[Mean1].iloc[i])
+        axs[i].set_title(f'Distribution Curve for Element {i + 1}')
+        axs[i].set_xlabel('Index')
+        axs[i].set_ylabel('Value')
+
+    plt.tight_layout()
     plt.show()
 
 
