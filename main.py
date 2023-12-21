@@ -3,6 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 
+from FedLA.AccLine import plot_sota_acc_trend
 from FedLA.AdaptiveCs import plot_delta_trend, plot_vector_trend, plot_if_trend, plot_delta_heatmap, plot_acc_trend
 from FedLA.Matrix import plot_dis_trend, calculate_js_divergence, plot_matrix_trend
 from FedLA.Selection import to_vis_selection, plot_cnt
@@ -78,15 +79,25 @@ def dis_if():
     plot_acc_trend(csv, debug_img)
 
 
+def acc_compare():
+    seqs2csv([avg_acc1, avg_acc2, avg_acc3,
+              sca_acc1, sca_acc2, sca_acc3,
+              moon_acc1, moon_acc2, moon_acc3], accs_csv)
+    csv = pd.read_csv(accs_csv)
+    plot_sota_acc_trend(csv, debug_img)
+
+
 if __name__ == '__main__':
     # matrix_dist_csv()
     # matrix_dist_csvs()
     # selection()
 
-    # # 信息矩阵变化图
-    matrix_single()
+    # # # 信息矩阵变化图
+    # matrix_single()
+    #
+    # # adaptive_cs()
+    #
+    # # 趋势收敛图
+    # dis_if()
 
-    # adaptive_cs()
-
-    # 趋势收敛图
-    dis_if()
+    acc_compare()

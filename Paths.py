@@ -75,3 +75,41 @@ delta_ratio_img = "output/delta_ratio.png"
 delta_img = "output/delta_sp_ratio.png"
 
 debug_img = "output/debug.png"
+
+
+# # AccLine
+# In
+# sca_acc1 = "res/fmnist-conv2-scaffold-test_acc_173218---12.19.seq"
+# sca_acc2 = "res/fmnist-conv2-scaffold-test_acc_173825---12.19.seq"
+# sca_acc3 = "res/fmnist-conv2-scaffold-test_acc_174023---12.19.seq"
+
+# # 12.21
+sca_acc1 = "res/fmnist-conv2-scaffold-test_acc_154020---12.21.seq"
+sca_acc2 = "res/fmnist-conv2-scaffold-test_acc_154220---12.21.seq"
+sca_acc3 = "res/fmnist-conv2-scaffold-test_acc_154626---12.21.seq"
+
+# # 12.20
+# moon_acc1 = "res/fmnist-conv2-moon-test_acc_171236---12.20.seq"
+# moon_acc2 = "res/fmnist-conv2-moon-test_acc_171506---12.20.seq"
+# moon_acc3 = "res/fmnist-conv2-moon-test_acc_171729---12.20.seq"
+
+# # 12.21
+# moon_acc1 = "res/fmnist-conv2-moon-test_acc_151211---12.21.seq"
+# moon_acc2 = "res/fmnist-conv2-moon-test_acc_151432---12.21.seq"
+# moon_acc3 = "res/fmnist-conv2-moon-test_acc_151648---12.21.seq"
+
+# moon_acc1 = "res/fmnist-conv2-moon-test_acc_155526---12.21.seq"
+# moon_acc2 = "res/fmnist-conv2-moon-test_acc_155745---12.21.seq"
+# moon_acc3 = "res/fmnist-conv2-moon-test_acc_160008---12.21.seq"
+
+moon_acc1 = "res/fmnist-conv2-moon-test_acc_163313---12.21.seq"
+moon_acc2 = "res/fmnist-conv2-moon-test_acc_163537---12.21.seq"
+moon_acc3 = "res/fmnist-conv2-moon-test_acc_163807---12.21.seq"
+
+
+avg_acc1 = "res/fmnist-conv2-fedavg-test_acc_200224---12.20.seq"
+avg_acc2 = "res/fmnist-conv2-fedavg-test_acc_200426---12.20.seq"
+avg_acc3 = "res/fmnist-conv2-fedavg-test_acc_201033---12.20.seq"
+
+# Out
+accs_csv = "res/csv/sota_accs.csv"
