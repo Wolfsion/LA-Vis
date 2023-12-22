@@ -4,6 +4,7 @@ from enum import unique, Enum
 import numpy as np
 import pandas as pd
 from sklearn.manifold import TSNE
+from scipy.stats import entropy
 
 from Env import Mean
 
@@ -204,3 +205,17 @@ def kl_divergence(p, q):
     q = np.where(q == 0, 1e-10, q)
 
     return np.sum(p * np.log(p / q))
+
+
+def softmax(x, temperature=1.0):
+    """ Compute softmax values with temperature for each set of scores in x."""
+    e_x = np.exp((x - np.max(x)) / temperature)
+    return e_x / e_x.sum(axis=0)
+
+
+def js_divergence(p, q, temperature=1.0):
+    """ Compute the JS Divergence between two probability distributions with a temperature parameter."""
+    p = softmax(p, temperature)
+    q = softmax(q, temperature)
+    m = (p + q) / 2
+    return (entropy(p, m) + entropy(q, m)) / 2

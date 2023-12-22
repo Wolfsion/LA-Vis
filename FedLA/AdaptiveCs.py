@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -101,7 +103,13 @@ def plot_if_trend(df, out: str = None):
     # matrixs_heatmap(diff_matrices)
 
     js_divergences = []
-    for i in range(len(df) - 1):
+
+    # 随机选择6个矩阵的索引
+    selected_indices = random.sample(range(len(df)), 6)
+    selected_indices = sorted(selected_indices)
+
+    # range(len(df) - 1)
+    for i in selected_indices:
         matrix1 = mean_matrices[i]
         matrix2 = mean_matrices[i + 1]
 
@@ -121,9 +129,9 @@ def plot_if_trend(df, out: str = None):
             row2 = remove_top_k_elements(row2, 1)
 
             # 计算 JS 散度
-            # js_div = jensenshannon(row1, row2)
+            js_div = jensenshannon(row1, row2)
             # js_div = euclidean_distance(row1, row2)
-            stat, js_div = wilcoxon(row1, row2)
+            # stat, js_div = wilcoxon(row1, row2)
             # js_div = kl_divergence(row1, row2)
 
             js_div_row.append(js_div)
@@ -141,9 +149,9 @@ def plot_if_trend(df, out: str = None):
     # 将 JS 散度结果转换为 DataFrame
     js_df = pd.DataFrame(js_divergences)
 
-    # 按行取平均
-    js_df[0] = js_df.mean(axis=1)
-    js_df = js_df[[0]]  # 保留列 '0'，删除其他所有列
+    # # 按行取平均
+    # js_df[0] = js_df.mean(axis=1)
+    # js_df = js_df[[0]]  # 保留列 '0'，删除其他所有列
 
     # 绘制每行 JS 散度的变化趋势图
     plt.figure(figsize=(12, 8))
