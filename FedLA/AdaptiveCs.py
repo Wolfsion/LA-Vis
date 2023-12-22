@@ -72,7 +72,7 @@ def matrixs_heatmap(mean_matrices: np.ndarray, out: str = None):
 
 def plot_if_trend(df, out: str = None):
     df = switch_n_vector_avg(df)
-    avg_ifs = np.stack(df['Mean'].values)
+    avg_ifs = np.stack(df[Mean].values)
     tsne_result = tsne_2dims(avg_ifs)
     df[Mean_TSNE] = list(map(tuple, tsne_result))
 
