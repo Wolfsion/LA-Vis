@@ -92,12 +92,12 @@ if __name__ == '__main__':
     # matrix_dist_csvs()
     # selection()
 
-    # # # 信息矩阵变化图
-    # matrix_single()
-    #
+    # # 信息矩阵变化图
+    matrix_single()
+
     # # adaptive_cs()
     #
-    # # 趋势收敛图
-    # dis_if()
+    # 趋势收敛图
+    dis_if()
 
-    acc_compare()
+    # acc_compare()

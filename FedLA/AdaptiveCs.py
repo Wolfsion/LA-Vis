@@ -3,9 +3,11 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy.spatial.distance import jensenshannon
+from scipy.stats import wilcoxon
 
 from Env import Mean, Mean_TSNE, Mean_Delta, Mean_Norm, Mean1
-from utils.switcher import switch_n_avg, str2ndarray, switch_n_vector_avg, tsne_2dims
+from utils.switcher import switch_n_avg, str2ndarray, switch_n_vector_avg, tsne_2dims, apply_scalar_positional_encoding, \
+    remove_top_k_elements, kl_divergence, euclidean_distance
 
 
 def plot_delta_trend(data, out: str = None):
@@ -103,29 +105,38 @@ def plot_if_trend(df, out: str = None):
         matrix1 = mean_matrices[i]
         matrix2 = mean_matrices[i + 1]
 
-        # # method1: 多元素
-        # js_div_row = []
-        # for j in range(len(matrix1)):
-        #     # # 完整元素
-        #     # row1 = matrix1[j]
-        #     # row2 = matrix2[j]
-        #
-        #     ## 去除对角线元素
-        #     row1 = np.delete(matrix1[j], j)
-        #     row2 = np.delete(matrix2[j], j)
-        #
-        #     # 计算 JS 散度
-        #     js_div = jensenshannon(row1, row2)
-        #     js_div_row.append(js_div)
-        # js_divergences.append(js_div_row)
+        # method1: 多元素
+        js_div_row = []
+        for j in range(len(matrix1)):
+            # 完整元素
+            row1 = matrix1[j]
+            row2 = matrix2[j]
 
-        # # method2: 只计算对角线元素
-        diagonal1 = np.diag(matrix1)
-        diagonal2 = np.diag(matrix2)
+            # # 去除对角线元素
+            # row1 = np.delete(row1, j)
+            # row2 = np.delete(row2, j)
 
-        # 计算对角线元素的 JS 散度
-        js_div_diagonal = jensenshannon(diagonal1, diagonal2)
-        js_divergences.append(js_div_diagonal)
+            #
+            row1 = remove_top_k_elements(row1, 1)
+            row2 = remove_top_k_elements(row2, 1)
+
+            # 计算 JS 散度
+            # js_div = jensenshannon(row1, row2)
+            # js_div = euclidean_distance(row1, row2)
+            stat, js_div = wilcoxon(row1, row2)
+            # js_div = kl_divergence(row1, row2)
+
+            js_div_row.append(js_div)
+
+        js_divergences.append(js_div_row)
+
+        # # # method2: 只计算对角线元素
+        # diagonal1 = np.diag(matrix1)
+        # diagonal2 = np.diag(matrix2)
+        #
+        # # 计算对角线元素的 JS 散度
+        # js_div_diagonal = jensenshannon(diagonal1, diagonal2)
+        # js_divergences.append(js_div_diagonal)
 
     # 将 JS 散度结果转换为 DataFrame
     js_df = pd.DataFrame(js_divergences)

@@ -141,3 +141,66 @@ def cal_cosine_similarity(vec1: np.ndarray, vec2: np.ndarray) -> float:
     cosine_similarity = dot_product / (norm_vec1 * norm_vec2)
 
     return cosine_similarity
+
+
+def scalar_positional_encoding(seq_len):
+    """
+    Generate scalar positional encoding for each position in the sequence.
+    :param seq_len: Length of the sequence.
+    :return: A numpy array of shape (seq_len, 1) representing the scalar positional encodings.
+    """
+    pos_enc = np.array([[np.sin(pos / 10000.0)] for pos in range(seq_len)])
+    return pos_enc
+
+
+def apply_scalar_positional_encoding(input_tensor, seq_len):
+    """
+    Apply scalar positional encoding to the input tensor.
+    :param input_tensor: The input tensor, expected shape (1, seq_len).
+    :param seq_len: Length of the sequence.
+    :return: Combined tensor after applying scalar positional encoding.
+    """
+    # Generate scalar positional encoding
+    pos_enc = scalar_positional_encoding(seq_len)
+
+    # Scale the positional encoding to match the input tensor's scale
+    scale_factor = np.mean(input_tensor) / np.mean(np.abs(pos_enc))
+    scaled_pos_enc = pos_enc * scale_factor
+
+    # Combine the input tensor with the scaled positional encoding
+    combined_tensor = input_tensor + scaled_pos_enc.reshape(1, -1)
+    return combined_tensor
+
+
+def remove_top_k_elements(array, k):
+    """
+    Remove the top k largest elements from the numpy array.
+
+    :param array: Numpy array from which to remove elements.
+    :param k: Number of largest elements to remove.
+    :return: Numpy array with the top k largest elements removed.
+    """
+    if k >= len(array):
+        return np.array([])  # Return an empty array if k is greater than or equal to the length of the array
+
+    sorted_indices = np.argsort(array)
+    return np.delete(array, sorted_indices[-k:])
+
+
+def euclidean_distance(arr1, arr2):
+    """
+    Calculate the Euclidean distance between two numpy arrays.
+    """
+    return np.linalg.norm(arr1 - arr2)
+
+
+def kl_divergence(p, q):
+    """
+    Calculate the KL divergence between two probability distributions.
+    Ensure that both p and q are numpy arrays with the same shape.
+    """
+    # Replace zeros to avoid division by zero and log of zero
+    p = np.where(p == 0, 1e-10, p)
+    q = np.where(q == 0, 1e-10, q)
+
+    return np.sum(p * np.log(p / q))
