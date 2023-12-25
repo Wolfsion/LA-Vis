@@ -187,6 +187,39 @@ def plot_delta_heatmap(df, out):
     matrixs_heatmap(mean_matrices, out)
 
 
+def single_line_heatmap(df, out):
+    df = switch_n_vector_avg(df)
+    selected_indices = random.sample(range(len(df)), 6)
+    selected_indices = sorted(selected_indices)
+    mean_matrices = np.array([np.reshape(arr, (10, 10)) for arr in df[Mean]])
+
+    # 设置绘图布局
+    fig, axs = plt.subplots(2, 3, figsize=(15, 10))
+
+    # 绘制每个矩阵第 10 行的热图
+    for i, ax in zip(selected_indices, axs.flatten()):
+        ax.imshow(mean_matrices[i][9, np.newaxis], aspect='auto', cmap='viridis')  # 第 10 行的索引是 9
+        ax.set_title(f'Matrix {i + 1}, Row 10')
+        ax.set_xlabel('Column Index')
+        ax.set_ylabel('Row 10 Value')
+    plt.tight_layout()
+    plt.show()
+
+    row_10_arrays = [mean_matrices[i:i + 20][9] for i in selected_indices]
+
+    # 计算相邻矩阵第 10 行向量之间的 JS 散度
+    js_divergences = [jensenshannon(row_10_arrays[i], row_10_arrays[i + 1]) for i in range(len(row_10_arrays) - 1)]
+
+    # 绘制 JS 散度的变化图
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(len(js_divergences)), js_divergences, marker='o')
+    plt.title('Jensen-Shannon Divergence Between Adjacent Matrices (Row 10)')
+    plt.xlabel('Matrix Pair Index')
+    plt.ylabel('JS Divergence')
+    plt.grid(True)
+    plt.show()
+
+
 def plot_acc_trend(df, out):
     df = switch_n_avg(df)
 
