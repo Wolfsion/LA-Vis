@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy.spatial.distance import jensenshannon
 from scipy.stats import wilcoxon
+from scipy.spatial.distance import cosine
 
 from Env import Mean, Mean_TSNE, Mean_Delta, Mean_Norm, Mean1
 from utils.switcher import switch_n_avg, str2ndarray, switch_n_vector_avg, tsne_2dims, apply_scalar_positional_encoding, \
@@ -102,52 +103,85 @@ def plot_if_trend(df, out: str = None):
     #
     # matrixs_heatmap(diff_matrices)
 
-    js_divergences = []
+    js_divergences2 = []
+    js_divergences1 = []
 
-    # 随机选择6个矩阵的索引
-    selected_indices = random.sample(range(len(df)), 6)
-    selected_indices = sorted(selected_indices)
+    # # 随机选择6个矩阵的索引
+    # selected_indices = random.sample(range(len(df)-1), 6)
+    # selected_indices = sorted(selected_indices)
 
+    # # range(len(df) - 1)
+    # for i in range(len(df) - 1):
+    #     matrix1 = mean_matrices[i]
+    #     matrix2 = mean_matrices[i + 1]
+    #
+    #     # method1: 多元素
+    #     js_div_row = []
+    #     for j in range(len(matrix1)):
+    #         # 完整元素
+    #         row1 = matrix1[j]
+    #         row2 = matrix2[j]
+    #
+    #         # # 去除对角线元素
+    #         # row1 = np.delete(row1, j)
+    #         # row2 = np.delete(row2, j)
+    #
+    #         #
+    #         row1 = remove_top_k_elements(row1, 1)
+    #         row2 = remove_top_k_elements(row2, 1)
+    #
+    #         # 计算 JS 散度
+    #         js_div = jensenshannon(row1, row2)
+    #         # js_div = euclidean_distance(row1, row2)
+    #         # stat, js_div = wilcoxon(row1, row2)
+    #         # js_div = kl_divergence(row1, row2)
+    #
+    #         js_div_row.append(js_div)
+    #
+    #     js_divergences1.append(js_div_row)
+    #
+    #     # # method2: 只计算对角线元素
+    #     diagonal1 = np.diag(matrix1)
+    #     diagonal2 = np.diag(matrix2)
+    #
+    #     # 计算对角线元素的 JS 散度
+    #     js_div_diagonal = jensenshannon(diagonal1, diagonal2)
+    #     js_divergences2.append(js_div_diagonal)
     # range(len(df) - 1)
-    for i in selected_indices:
+
+    for i in range(len(df)-1):
+        matrix1 = mean_matrices[0]
+        matrix2 = mean_matrices[i+1]
+
+        js_div_row = []
+        for j in range(len(matrix1)):
+            row1 = remove_top_k_elements(matrix1[j], 1)
+            row2 = remove_top_k_elements(matrix2[j], 1)
+
+            js_div = jensenshannon(row1, row2)
+            js_div_row.append(js_div)
+
+        js_divergences1.append(js_div_row)
+
+    np_array = np.array(js_divergences1)
+    mean_values_row = np.mean(np_array, axis=1)
+    js_divergences1 = - mean_values_row
+
+    for i in range(len(df) - 1):
         matrix1 = mean_matrices[i]
         matrix2 = mean_matrices[i + 1]
 
-        # method1: 多元素
-        js_div_row = []
-        for j in range(len(matrix1)):
-            # 完整元素
-            row1 = matrix1[j]
-            row2 = matrix2[j]
+        # # method2: 只计算对角线元素
+        diagonal1 = np.diag(matrix1)
+        diagonal2 = np.diag(matrix2)
 
-            # # 去除对角线元素
-            # row1 = np.delete(row1, j)
-            # row2 = np.delete(row2, j)
-
-            #
-            row1 = remove_top_k_elements(row1, 1)
-            row2 = remove_top_k_elements(row2, 1)
-
-            # 计算 JS 散度
-            js_div = jensenshannon(row1, row2)
-            # js_div = euclidean_distance(row1, row2)
-            # stat, js_div = wilcoxon(row1, row2)
-            # js_div = kl_divergence(row1, row2)
-
-            js_div_row.append(js_div)
-
-        js_divergences.append(js_div_row)
-
-        # # # method2: 只计算对角线元素
-        # diagonal1 = np.diag(matrix1)
-        # diagonal2 = np.diag(matrix2)
-        #
-        # # 计算对角线元素的 JS 散度
-        # js_div_diagonal = jensenshannon(diagonal1, diagonal2)
-        # js_divergences.append(js_div_diagonal)
+        # 计算对角线元素的 JS 散度
+        js_div_diagonal = jensenshannon(diagonal1, diagonal2)
+        js_divergences2.append(js_div_diagonal)
 
     # 将 JS 散度结果转换为 DataFrame
-    js_df = pd.DataFrame(js_divergences)
+    suff = 0.3
+    js_df = pd.DataFrame(suff*js_divergences1+js_divergences2)
 
     # # 按行取平均
     # js_df[0] = js_df.mean(axis=1)
@@ -187,28 +221,44 @@ def plot_delta_heatmap(df, out):
     matrixs_heatmap(mean_matrices, out)
 
 
-def single_line_heatmap(df, out):
+def single_line_heatmap(df, class_idx=5):
     df = switch_n_vector_avg(df)
     selected_indices = random.sample(range(len(df)), 6)
     selected_indices = sorted(selected_indices)
+
+    selected_indices = list(range(len(df)))
+
     mean_matrices = np.array([np.reshape(arr, (10, 10)) for arr in df[Mean]])
 
     # 设置绘图布局
-    fig, axs = plt.subplots(2, 3, figsize=(15, 10))
+    fig, axs = plt.subplots(3, 5, figsize=(15, 10))
 
     # 绘制每个矩阵第 10 行的热图
     for i, ax in zip(selected_indices, axs.flatten()):
-        ax.imshow(mean_matrices[i][9, np.newaxis], aspect='auto', cmap='viridis')  # 第 10 行的索引是 9
+        ax.imshow(mean_matrices[i][class_idx, np.newaxis], aspect='auto', cmap='viridis')  # 第 10 行的索引是 9
         ax.set_title(f'Matrix {i + 1}, Row 10')
         ax.set_xlabel('Column Index')
         ax.set_ylabel('Row 10 Value')
     plt.tight_layout()
     plt.show()
 
-    row_10_arrays = [mean_matrices[i:i + 20][9] for i in selected_indices]
+    row_10_arrays = [mean_matrices[i][class_idx] for i in selected_indices]
 
-    # 计算相邻矩阵第 10 行向量之间的 JS 散度
-    js_divergences = [jensenshannon(row_10_arrays[i], row_10_arrays[i + 1]) for i in range(len(row_10_arrays) - 1)]
+    row_10_arrays = [remove_top_k_elements(arr, 1) for arr in row_10_arrays]
+
+    max_j = np.max(row_10_arrays)
+    min_j = np.min(row_10_arrays)
+    delta = max_j - min_j
+
+    js_divergences = []
+    for i in range(len(row_10_arrays) - 1):
+        # 计算相邻矩阵第 10 行向量之间的 JS 散度
+        js_divergences.append(jensenshannon(row_10_arrays[i]/delta, row_10_arrays[i+1]/delta))
+
+        # stat, pv = wilcoxon(row_10_arrays[i], row_10_arrays[i + 1])
+        # js_divergences.append(pv)
+
+        # js_divergences.append(1. - cosine(row_10_arrays[i], row_10_arrays[i + 1]))
 
     # 绘制 JS 散度的变化图
     plt.figure(figsize=(10, 6))

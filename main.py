@@ -1,3 +1,4 @@
+import copy
 import random
 
 import numpy as np
@@ -70,7 +71,7 @@ def dis_if():
     seqs2csv([if1, if2], ifs_csv)
     csv = pd.read_csv(ifs_csv)
     plot_if_trend(csv, debug_img)
-    single_line_heatmap(csv, debug_img)
+
     # seqs2csv([delta_sp_ratio1, delta_sp_ratio2], delta_ratio_sp_csv)
     # csv = pd.read_csv(delta_ratio_sp_csv)
     # plot_delta_heatmap(csv, debug_img)
@@ -88,17 +89,25 @@ def acc_compare():
     plot_sota_acc_trend(csv, debug_img)
 
 
+def final_plan():
+    seqs2csv([if1, if2], ifs_csv)
+    csv = pd.read_csv(ifs_csv)
+    single_line_heatmap(csv)
+
+
 if __name__ == '__main__':
     # matrix_dist_csv()
     # matrix_dist_csvs()
     # selection()
 
-    # # 信息矩阵变化图
-    matrix_single()
+    # # # 信息矩阵变化图
+    # matrix_single()
 
     # # adaptive_cs()
-    #
-    # 趋势收敛图
+
+    # # 趋势收敛图
     dis_if()
 
     # acc_compare()
+
+    final_plan()
