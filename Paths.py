@@ -113,3 +113,12 @@ avg_acc3 = "res/fmnist-conv2-fedavg-test_acc_201033---12.20.seq"
 
 # Out
 accs_csv = "res/csv/sota_accs.csv"
+
+
+# Adapt
+dis1 = "res/adapt_dist_191523---12.26.seq"
+dis2 = "res/adapt_dist_193224---12.26.seq"
+dis3 = "res/adapt_dist_212605---12.26.seq"
+
+# Out
+dis_csv = "res/csv/adapt_dis.csv"

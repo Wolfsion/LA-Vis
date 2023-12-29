@@ -68,16 +68,20 @@ def adaptive_cs():
 
 
 def dis_if():
-    seqs2csv([if1, if2], ifs_csv)
-    csv = pd.read_csv(ifs_csv)
-    plot_if_trend(csv, debug_img)
+    # seqs2csv([if1, if2], ifs_csv)
+    # csv = pd.read_csv(ifs_csv)
+    # plot_if_trend(csv, debug_img)
 
     # seqs2csv([delta_sp_ratio1, delta_sp_ratio2], delta_ratio_sp_csv)
     # csv = pd.read_csv(delta_ratio_sp_csv)
     # plot_delta_heatmap(csv, debug_img)
 
-    seqs2csv([acc1, acc2], acc_csv)
-    csv = pd.read_csv(acc_csv)
+    # seqs2csv([acc1, acc2], acc_csv)
+    # csv = pd.read_csv(acc_csv)
+    # plot_acc_trend(csv, debug_img)
+
+    seqs2csv([dis3], dis_csv)
+    csv = pd.read_csv(dis_csv)
     plot_acc_trend(csv, debug_img)
 
 
@@ -110,4 +114,4 @@ if __name__ == '__main__':
 
     # acc_compare()
 
-    final_plan()
+    # final_plan()
